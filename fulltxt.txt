@@ -1,0 +1,275 @@
+atme@atme-HP-280-Pro-G6-Microtower-PC:~$ cd ci046
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046$ 
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046$ 
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046$ 
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046$ ls
+a.txt  git.txt
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046$ 
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046$ 
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046$ 
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046$ 
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046$ 
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046$ git init
+Reinitialized existing Git repository in /home/atme/ci046/.git/
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046$ ls -a
+.  ..  a.txt  .git  git.txt
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	new file:   a.txt
+
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046$ mkdir folder1
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046$ cd folder1
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git init
+Initialized empty Git repository in /home/atme/ci046/folder1/.git/
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git status
+On branch master
+
+No commits yet
+
+nothing to commit (create/copy files and use "git add" to track)
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ touch a.txt
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	a.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git add a.txt
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+	new file:   a.txt
+
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git commit -m "a.txt created"
+[master (root-commit) f844b3a] a.txt created
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 a.txt
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git status
+On branch master
+nothing to commit, working tree clean
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git log
+commit f844b3a6b230221cad329708412443beb0d48a37 (HEAD -> master)
+Author: Your <you@example.com>
+Date:   Thu Jan 11 15:31:23 2024 +0530
+
+    a.txt created
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git tag
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git tag v1
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git tag
+v1
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git tag v1.0
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git tag
+v1
+v1.0
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git log
+commit f844b3a6b230221cad329708412443beb0d48a37 (HEAD -> master, tag: v1.0, tag: v1)
+Author: Your <you@example.com>
+Date:   Thu Jan 11 15:31:23 2024 +0530
+
+    a.txt created
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git show f844b3a6b230221cad329708412443beb0d48a37
+commit f844b3a6b230221cad329708412443beb0d48a37 (HEAD -> master, tag: v1.0, tag: v1)
+Author: Your <you@example.com>
+Date:   Thu Jan 11 15:31:23 2024 +0530
+
+    a.txt created
+
+diff --git a/a.txt b/a.txt
+new file mode 100644
+index 0000000..e69de29
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ touch g.txt
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git add g.txt
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git commit -m"g.txt is created "
+[master eb82a74] g.txt is created
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 g.txt
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ touch g.c
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git add .
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git commit -m"g.c is created"
+[master bfe24a8] g.c is created
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 g.c
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git log
+commit bfe24a836385962a811876341c3196409b13dc1a (HEAD -> master)
+Author: Your <you@example.com>
+Date:   Thu Jan 11 15:35:16 2024 +0530
+
+    g.c is created
+
+commit eb82a74c668f3790240336746bf44a666c25f816
+Author: Your <you@example.com>
+Date:   Thu Jan 11 15:34:48 2024 +0530
+
+    g.txt is created
+
+commit f844b3a6b230221cad329708412443beb0d48a37 (tag: v1.0, tag: v1)
+Author: Your <you@example.com>
+Date:   Thu Jan 11 15:31:23 2024 +0530
+
+    a.txt created
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git log -2
+commit bfe24a836385962a811876341c3196409b13dc1a (HEAD -> master)
+Author: Your <you@example.com>
+Date:   Thu Jan 11 15:35:16 2024 +0530
+
+    g.c is created
+
+commit eb82a74c668f3790240336746bf44a666c25f816
+Author: Your <you@example.com>
+Date:   Thu Jan 11 15:34:48 2024 +0530
+
+    g.txt is created
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ 
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ 
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ 
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git branch
+* master
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git branch feature
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git branch
+  feature
+* master
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git checkout feature
+Switched to branch 'feature'
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git branch
+* feature
+  master
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ touch a.c
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git add .
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git commit -m"a.c is created "
+[feature 2df2971] a.c is created
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 a.c
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ ls
+a.c  a.txt  g.c  g.txt
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git branch
+* feature
+  master
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git checkout master master
+error: pathspec 'master' did not match any file(s) known to git.
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git chckout master
+git: 'chckout' is not a git command. See 'git --help'.
+
+The most similar command is
+	checkout
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git checkout master
+Switched to branch 'master'
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git branch
+  feature
+* master
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ ls
+a.txt  g.c  g.txt
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git merge feature
+Updating bfe24a8..2df2971
+Fast-forward
+ a.c | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 a.c
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ ls
+a.c  a.txt  g.c  g.txt
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ git clone https://github.com/Ponnanna-17/CS-AlliedBranches.git
+Cloning into 'CS-AlliedBranches'...
+remote: Enumerating objects: 6, done.
+remote: Counting objects: 100% (6/6), done.
+remote: Compressing objects: 100% (4/4), done.
+remote: Total 6 (delta 1), reused 3 (delta 0), pack-reused 0
+Unpacking objects: 100% (6/6), done.
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ ls
+a.c  a.txt  CS-AlliedBranches  g.c  g.txt
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1$ cd CS-AlliedBranches/
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ ls
+README.md
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ touch r.c
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ git add .
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ git commit -m"r.c is created"
+[main 3a145ef] r.c is created
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 r.c
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ git log
+commit 3a145efff9af77c5df9d9ddf67a39248351e6bb4 (HEAD -> main)
+Author: Your <you@example.com>
+Date:   Thu Jan 11 15:43:08 2024 +0530
+
+    r.c is created
+
+commit 5942fcbf42db0c63d369381ce4d9e169400a7a44 (origin/main, origin/HEAD)
+Author: ubuntu <ubuntu@ubuntu2.myguest.virtualbox.org>
+Date:   Sat Nov 11 22:40:00 2023 +0530
+
+    Commit No.one
+
+commit 0b9a8d143787e41e936b5f464cb9178944a0de09
+Author: Arjungs1524 <arjungs15@gmail.com>
+Date:   Sat Nov 11 22:32:39 2023 +0530
+
+    Initial commit
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ git pull
+Already up to date.
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ git pull origin
+Already up to date.
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ git pull origin
+Already up to date.
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ git branch
+* main
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ git branch p1
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ git checkout p1
+Switched to branch 'p1'
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ touch p.c
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ git add .
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ git commit -m"p.c is commited"
+[p1 bb0e2cd] p.c is commited
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 p.c
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ git log
+commit bb0e2cdf006a13c23a22681bfd2dd30af2531803 (HEAD -> p1)
+Author: Your <you@example.com>
+Date:   Thu Jan 11 15:52:59 2024 +0530
+
+    p.c is commited
+
+commit 3a145efff9af77c5df9d9ddf67a39248351e6bb4 (main)
+Author: Your <you@example.com>
+Date:   Thu Jan 11 15:43:08 2024 +0530
+
+    r.c is created
+
+commit 5942fcbf42db0c63d369381ce4d9e169400a7a44 (origin/main, origin/HEAD)
+Author: ubuntu <ubuntu@ubuntu2.myguest.virtualbox.org>
+Date:   Sat Nov 11 22:40:00 2023 +0530
+
+    Commit No.one
+
+commit 0b9a8d143787e41e936b5f464cb9178944a0de09
+Author: Arjungs1524 <arjungs15@gmail.com>
+Date:   Sat Nov 11 22:32:39 2023 +0530
+
+    Initial commit
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ git push origin p1
+Username for 'https://github.com': ^C
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ git remote -v
+origin	https://github.com/Ponnanna-17/CS-AlliedBranches.git (fetch)
+origin	https://github.com/Ponnanna-17/CS-AlliedBranches.git (push)
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ git remote set-url origin git@github.com:Ponnanna-17/CS-AlliedBranches.git
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ git remote set-url origin git@github.com:Ponnanna-17/CS-AlliedBranches
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ git push origin p1
+Counting objects: 5, done.
+Delta compression using up to 16 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (5/5), 494 bytes | 494.00 KiB/s, done.
+Total 5 (delta 0), reused 0 (delta 0)
+To github.com:Ponnanna-17/CS-AlliedBranches
+   5942fcb..bb0e2cd  p1 -> p1
+atme@atme-HP-280-Pro-G6-Microtower-PC:~/ci046/folder1/CS-AlliedBranches$ 
+
