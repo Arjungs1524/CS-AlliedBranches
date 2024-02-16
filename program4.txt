@@ -1,0 +1,260 @@
+atme@aiml02:~/Desktop/demo$ git clone https://github.com/madegowdabk/CS-AlliedBranches.git
+
+Command 'git' not found, but can be installed with:
+
+sudo apt install git
+
+atme@aiml02:~/Desktop/demo$ sudo apt install git
+[sudo] password for atme: 
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following packages were automatically installed and are no longer required:
+  gir1.2-goa-1.0 gir1.2-snapd-1
+Use 'sudo apt autoremove' to remove them.
+The following additional packages will be installed:
+  git-man liberror-perl
+Suggested packages:
+  git-daemon-run | git-daemon-sysvinit git-doc git-el git-email git-gui gitk
+  gitweb git-cvs git-mediawiki git-svn
+The following NEW packages will be installed:
+  git git-man liberror-perl
+0 upgraded, 3 newly installed, 0 to remove and 0 not upgraded.
+Need to get 4,817 kB of archives.
+After this operation, 34.3 MB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://in.archive.ubuntu.com/ubuntu bionic/main amd64 liberror-perl all 0.17025-1 [22.8 kB]
+Get:2 http://in.archive.ubuntu.com/ubuntu bionic-updates/main amd64 git-man all 1:2.17.1-1ubuntu0.18 [804 kB]
+Get:3 http://in.archive.ubuntu.com/ubuntu bionic-updates/main amd64 git amd64 1:2.17.1-1ubuntu0.18 [3,990 kB]
+Fetched 4,817 kB in 4s (1,182 kB/s)
+Selecting previously unselected package liberror-perl.
+(Reading database ... 174029 files and directories currently installed.)
+Preparing to unpack .../liberror-perl_0.17025-1_all.deb ...
+Unpacking liberror-perl (0.17025-1) ...
+Selecting previously unselected package git-man.
+Preparing to unpack .../git-man_1%3a2.17.1-1ubuntu0.18_all.deb ...
+Unpacking git-man (1:2.17.1-1ubuntu0.18) ...
+Selecting previously unselected package git.
+Preparing to unpack .../git_1%3a2.17.1-1ubuntu0.18_amd64.deb ...
+Unpacking git (1:2.17.1-1ubuntu0.18) ...
+Setting up git-man (1:2.17.1-1ubuntu0.18) ...
+Setting up liberror-perl (0.17025-1) ...
+Setting up git (1:2.17.1-1ubuntu0.18) ...
+Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
+atme@aiml02:~/Desktop/demo$ 
+atme@aiml02:~/Desktop/demo$ 
+atme@aiml02:~/Desktop/demo$ 
+atme@aiml02:~/Desktop/demo$ 
+atme@aiml02:~/Desktop/demo$ git clone https://github.com/madegowdabk/CS-AlliedBranches.git
+Cloning into 'CS-AlliedBranches'...
+remote: Enumerating objects: 10, done.
+remote: Counting objects: 100% (10/10), done.
+remote: Compressing objects: 100% (8/8), done.
+remote: Total 10 (delta 1), reused 4 (delta 0), pack-reused 0
+Unpacking objects: 100% (10/10), done.
+atme@aiml02:~/Desktop/demo$ ls
+CS-AlliedBranches
+atme@aiml02:~/Desktop/demo$ cd CS-AlliedBranches
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ ls
+enable_password_less_auth.txt  README.md
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git branch 
+* main
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git branch p1
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git branch 
+* main
+  p1
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git checkout p1
+Switched to branch 'p1'
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ touch a.c
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git add . 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git commit -m "a.c file created"
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: unable to auto-detect email address (got 'atme@aiml02.(none)')
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git config --global user.email "you@example.com"
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git config --global user.name "Your Name"
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git commit -m "a.c file created"
+[p1 16eac96] a.c file created
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 a.c
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git log
+commit 16eac96c491460a55eace8b98ddd501d70b06d55 (HEAD -> p1)
+Author: Your Name <you@example.com>
+Date:   Fri Feb 9 15:26:17 2024 +0530
+
+    a.c file created
+
+commit 6dab1b0bec92e3b0dbd1511d9424f2a1eea43a55 (origin/main, origin/HEAD, main)
+Merge: 5942fcb 0c33190
+Author: Arjungs1524 <arjungs15@gmail.com>
+Date:   Mon Jan 29 10:53:32 2024 +0530
+
+    Merge pull request #3 from Arjun252gs/patch-1
+    
+    added enable_password_less_auth.txt
+
+commit 0c33190778c5ca3d285caae2f613c873fe5c18d4
+Author: Arjun252gs <120630691+Arjun252gs@users.noreply.github.com>
+Date:   Mon Jan 29 10:14:33 2024 +0530
+
+    Create enable_password_less_auth.txt
+
+commit 5942fcbf42db0c63d369381ce4d9e169400a7a44
+Author: ubuntu <ubuntu@ubuntu2.myguest.virtualbox.org>
+Date:   Sat Nov 11 22:40:00 2023 +0530
+
+    Commit No.one
+
+commit 0b9a8d143787e41e936b5f464cb9178944a0de09
+Author: Arjungs1524 <arjungs15@gmail.com>
+Date:   Sat Nov 11 22:32:39 2023 +0530
+
+    Initial commit
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git remote -v
+origin	https://github.com/madegowdabk/CS-AlliedBranches.git (fetch)
+origin	https://github.com/madegowdabk/CS-AlliedBranches.git (push)
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git remote set-url origin git@github.com:madegowdabk/CS-AlliedBranches
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git remote -v
+origin	git@github.com:madegowdabk/CS-AlliedBranches (fetch)
+origin	git@github.com:madegowdabk/CS-AlliedBranches (push)
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git push origin p1
+The authenticity of host 'github.com (20.207.73.82)' can't be established.
+ECDSA key fingerprint is SHA256:p2QAMXNIC1TJYWeIOttrVc98/R1BUFWu3/LiyKgUfQM.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'github.com,20.207.73.82' (ECDSA) to the list of known hosts.
+Counting objects: 3, done.
+Delta compression using up to 12 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 325 bytes | 325.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To github.com:madegowdabk/CS-AlliedBranches
+   6dab1b0..16eac96  p1 -> p1
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ 
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git checkout main 
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git branch 
+* main
+  p1
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git checkout p1
+Switched to branch 'p1'
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git log
+commit 16eac96c491460a55eace8b98ddd501d70b06d55 (HEAD -> p1, origin/p1)
+Author: Your Name <you@example.com>
+Date:   Fri Feb 9 15:26:17 2024 +0530
+
+    a.c file created
+
+commit 6dab1b0bec92e3b0dbd1511d9424f2a1eea43a55 (origin/main, origin/HEAD, main)
+Merge: 5942fcb 0c33190
+Author: Arjungs1524 <arjungs15@gmail.com>
+Date:   Mon Jan 29 10:53:32 2024 +0530
+
+    Merge pull request #3 from Arjun252gs/patch-1
+    
+    added enable_password_less_auth.txt
+
+commit 0c33190778c5ca3d285caae2f613c873fe5c18d4
+Author: Arjun252gs <120630691+Arjun252gs@users.noreply.github.com>
+Date:   Mon Jan 29 10:14:33 2024 +0530
+
+    Create enable_password_less_auth.txt
+
+commit 5942fcbf42db0c63d369381ce4d9e169400a7a44
+Author: ubuntu <ubuntu@ubuntu2.myguest.virtualbox.org>
+Date:   Sat Nov 11 22:40:00 2023 +0530
+
+    Commit No.one
+
+commit 0b9a8d143787e41e936b5f464cb9178944a0de09
+Author: Arjungs1524 <arjungs15@gmail.com>
+Date:   Sat Nov 11 22:32:39 2023 +0530
+
+    Initial commit
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git checkout main 
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git rebase 16eac96c491460a55eace8b98ddd501d70b06d55
+First, rewinding head to replay your work on top of it...
+Fast-forwarded main to 16eac96c491460a55eace8b98ddd501d70b06d55.
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git log
+commit 16eac96c491460a55eace8b98ddd501d70b06d55 (HEAD -> main, origin/p1, p1)
+Author: Your Name <you@example.com>
+Date:   Fri Feb 9 15:26:17 2024 +0530
+
+    a.c file created
+
+commit 6dab1b0bec92e3b0dbd1511d9424f2a1eea43a55 (origin/main, origin/HEAD)
+Merge: 5942fcb 0c33190
+Author: Arjungs1524 <arjungs15@gmail.com>
+Date:   Mon Jan 29 10:53:32 2024 +0530
+
+    Merge pull request #3 from Arjun252gs/patch-1
+    
+    added enable_password_less_auth.txt
+
+commit 0c33190778c5ca3d285caae2f613c873fe5c18d4
+Author: Arjun252gs <120630691+Arjun252gs@users.noreply.github.com>
+Date:   Mon Jan 29 10:14:33 2024 +0530
+
+    Create enable_password_less_auth.txt
+
+commit 5942fcbf42db0c63d369381ce4d9e169400a7a44
+Author: ubuntu <ubuntu@ubuntu2.myguest.virtualbox.org>
+Date:   Sat Nov 11 22:40:00 2023 +0530
+
+    Commit No.one
+
+commit 0b9a8d143787e41e936b5f464cb9178944a0de09
+Author: Arjungs1524 <arjungs15@gmail.com>
+Date:   Sat Nov 11 22:32:39 2023 +0530
+
+    Initial commit
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$ git log --author=arjun
+commit 6dab1b0bec92e3b0dbd1511d9424f2a1eea43a55 (origin/main, origin/HEAD)
+Merge: 5942fcb 0c33190
+Author: Arjungs1524 <arjungs15@gmail.com>
+Date:   Mon Jan 29 10:53:32 2024 +0530
+
+    Merge pull request #3 from Arjun252gs/patch-1
+    
+    added enable_password_less_auth.txt
+
+commit 0b9a8d143787e41e936b5f464cb9178944a0de09
+Author: Arjungs1524 <arjungs15@gmail.com>
+Date:   Sat Nov 11 22:32:39 2023 +0530
+
+    Initial commit
+atme@aiml02:~/Desktop/demo/CS-AlliedBranches$

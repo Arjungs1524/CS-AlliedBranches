@@ -1,0 +1,31 @@
+atme@aiml02:~$ ssh-keygen -t ed25519 -C "madegowdabk880@gmail.com"
+Generating public/private ed25519 key pair.
+Enter file in which to save the key (/home/atme/.ssh/id_ed25519): /home/atme/.ssh/id_ed25519
+/home/atme/.ssh/id_ed25519 already exists.
+Overwrite (y/n)? y
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/atme/.ssh/id_ed25519.
+Your public key has been saved in /home/atme/.ssh/id_ed25519.pub.
+The key fingerprint is:
+SHA256:EonfBVxaQTceWwvh8XXjlN2Fmuf76KKp6vhdzzc09Yo madegowdabk880@gmail.com
+The key's randomart image is:
++--[ED25519 256]--+
+|       ..o=.B..+O|
+|     . ..+ + O++=|
+|    . o . . +oo. |
+|     . o .  o . .|
+|      o S    o ..|
+|       .      + .|
+|          .  o + |
+|     . . . +E =. |
+|    .o+.o.o.o+oo.|
++----[SHA256]-----+
+atme@aiml02:~$ eval "$(ssh-agent -s)"
+Agent pid 5661
+atme@aiml02:~$ ssh-add ~/.ssh/id_ed25519
+Enter passphrase for /home/atme/.ssh/id_ed25519: 
+Identity added: /home/atme/.ssh/id_ed25519 (madegowdabk880@gmail.com)
+atme@aiml02:~$ cat ~/.ssh/id_ed25519.pub
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKMWI6YIQq+PTAMgfjBszelT4opdONlsI7HMKiYG1TrF madegowdabk880@gmail.com
+atme@aiml02:~$ 
