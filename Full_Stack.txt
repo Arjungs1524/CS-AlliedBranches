@@ -1,0 +1,64 @@
+Program 3: - Develop a Django app that displays current date and time in server
+To create a Django app that displays the current date and time from the server, follow these steps: 
+
+Create a Django Project using the following command: 
+
+django-admin startproject myproject 
+ 
+Create a Django App: Inside your project directory, create a Django app using the following command: 
+
+python manage.py startapp myapp 
+ 
+
+Define a View Function: Open the views.py file in your app directory (myapp/views.py) and define a view function to handle the request and return the current date and time. 
+Use Python's datetime module for this: 
+
+python 
+
+from django.http import HttpResponse 
+from datetime import datetime 
+ 
+def current_datetime(request): 
+    now = datetime.now() 
+    html = "<html><body>Current date and time: {0}</body></html>".format(now) 
+    return HttpResponse(html) 
+ 
+
+Map URL to View: Next, map the URL to the view function you just created. Open the urls.py file in your app directory (myapp/urls.py) and define a URL pattern: 
+
+python 
+
+from django.urls import path 
+from . import views 
+ 
+urlpatterns = [ 
+    path('current_datetime/', views.current_datetime, name='current_datetime'), 
+] 
+ 
+
+Configure URL Mapping: Include the URL configuration of your app in the project's URL configuration. 
+Open the urls.py file in your project directory (myproject/urls.py) and include the URL pattern of your app: 
+
+python 
+
+from django.contrib import admin 
+from django.urls import path, include 
+ 
+urlpatterns = [ 
+    path('admin/', admin.site.urls), 
+    path('myapp/', include('myapp.urls')), 
+] 
+ 
+
+Run the Server: Start the Django development server using the following command: 
+
+python manage.py runserver 
+ 
+
+Access the Page: Open a web browser and navigate to http://127.0.0.1:8000/myapp/current_datetime/ to see the current date and time displayed on the page. 
+
+That's it! You have created a Django app that displays the current date and time from the server. 
+You can further customize the HTML template to enhance the appearance of the page if needed. 
+
+Program 4: - Develop a Django app that displays date and time four hours ahead and four hours before as
+an offset of current date and time in server.
