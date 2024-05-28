@@ -59,6 +59,74 @@ Access the Page: Open a web browser and navigate to http://127.0.0.1:8000/myapp/
 
 That's it! You have created a Django app that displays the current date and time from the server. 
 You can further customize the HTML template to enhance the appearance of the page if needed. 
+-----------------------------------------------------------------------------------------------------------------------
+Using Templates - 
+django-admin startproject myproject
+cd myproject
+python manage.py startapp myapp
 
+Define a View to Get the Current Date and Time
+
+In your app (e.g., myapp), create or edit the views.py file:
+# myapp/views.py
+
+from django.shortcuts import render
+from datetime import datetime
+
+def current_datetime(request):
+    now = datetime.now()
+    return render(request, 'myapp/current_datetime.html', {'current_date_time': now})
+
+Configure URL Routing
+
+In your project's urls.py file, add a URL pattern to route to the current_datetime view:
+
+# myproject/urls.py
+from django.contrib import admin
+from django.urls import path
+from myapp.views import current_datetime
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('datetime/', current_datetime, name='current_datetime'),
+]
+
+Create the Template
+
+Create a directory named templates in your app's directory (myapp), then inside it create another directory named myapp. This directory structure is required for Django to find your templates if you are using the default settings.
+
+Create a file named current_datetime.html inside myapp/templates/myapp/ with the following content:
+
+<!-- myapp/templates/myapp/current_datetime.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Date and Time</title>
+</head>
+<body>
+    <h1>Current Date and Time</h1>
+    <p>The current date and time is: {{ current_date_time }}</p>
+</body>
+</html>
+Run the Server and Access the View
+
+Run your Django development server with:
+python manage.py runserver
+
+Then navigate to http://127.0.0.1:8000/datetime/ in your web browser. You should see the current date and time displayed on the page.
+-----------------------------------------------------------------------------------------------------------------------
 Program 4: - Develop a Django app that displays date and time four hours ahead and four hours before as
 an offset of current date and time in server.
+Only view is changed from program 3.
+View - 
+from django.http import HttpResponse 
+from datetime import datetime, timedelta 
+
+def offset_datetime(request): 
+    now = datetime.now() 
+    offset_before = now - timedelta(hours=4) 
+    offset_after = now + timedelta(hours=4) 
+    html = "<html><body>Current date and time: {0}<br>Offset four hours before: {1}<br>Offset four hours ahead: {2}</body></html>".format(now, offset_before, offset_after) 
+    return HttpResponse(html)
