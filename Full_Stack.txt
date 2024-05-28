@@ -130,3 +130,48 @@ def offset_datetime(request):
     offset_after = now + timedelta(hours=4) 
     html = "<html><body>Current date and time: {0}<br>Offset four hours before: {1}<br>Offset four hours ahead: {2}</body></html>".format(now, offset_before, offset_after) 
     return HttpResponse(html)
+---------------------------------------------------------------------------------------------------------------------------
+
+Illustration of Dynamic Url and Wild card Patterns - 
+
+View - 
+# myapp/views.py
+from django.shortcuts import render
+from django.http import HttpResponse
+from datetime import datetime, timedelta
+import re
+
+def hours_ahead(request, hours):
+    try:
+        hours = int(hours)
+    except ValueError:
+        return HttpResponse("Invalid value for hours.")
+
+    future_time = datetime.now() + timedelta(hours=hours)
+    return render(request, 'myapp/hours_ahead.html', {'future_time': future_time, 'hours': hours})
+
+Urls - 
+# myproject/urls.py
+from django.contrib import admin
+from django.urls import path, re_path
+from myapp.views import hours_ahead
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    re_path(r'^time/plus/(\d+)/$', hours_ahead, name='hours_ahead'),
+]
+
+Template - 
+<!-- myapp/templates/myapp/hours_ahead.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Ahead</title>
+</head>
+<body>
+    <h1>Time Ahead</h1>
+    <p>In {{ hours }} hour(s), it will be: {{ future_time }}</p>
+</body>
+</html>
