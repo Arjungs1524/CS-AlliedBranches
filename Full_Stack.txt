@@ -176,3 +176,52 @@ Template -
     <p>In {{ hours|default_if_none:"00:00:00" }} hour(s), it will be: {{ future_time }}</p>
 </body>
 </html>
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Template tags
+
+Create a new template file named offset_datetime.html in your templates directory (e.g., myapp/templates/myapp/offset_datetime.html): 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Offset Datetime</title>
+</head>
+<body>
+    <p>Current date and time: {{ now }}</p>
+    <p>Offset four hours before: {{ offset_before }}</p>
+    <p>Offset four hours ahead: {{ offset_after }}</p>
+
+    {% if now.hour >= 12 %}
+        <p>It's afternoon.</p>
+    {% else %}
+        <p>It's morning.</p>
+    {% endif %}
+</body>
+</html>
+
+
+Update your view to render the template and pass the context: 
+
+from django.shortcuts import render
+from datetime import datetime, timedelta
+
+def offset_datetime(request):
+    now = datetime.now()
+    offset_before = now - timedelta(hours=4)
+    offset_after = now + timedelta(hours=4)
+    context = {
+        'now': now,
+        'offset_before': offset_before,
+        'offset_after': offset_after,
+    }
+    return render(request, 'myapp/offset_datetime.html', context)
+
+
+Ensure your URL configuration routes to the offset_datetime view. In urls.py: 
+
+from django.urls import path
+from .views import offset_datetime
+
+urlpatterns = [
+    path('offset_datetime/', offset_datetime, name='offset_datetime'),
+]
