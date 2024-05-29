@@ -173,5 +173,6 @@ Template -
 <body>
     <h1>Time Ahead</h1>
     <p>In {{ hours }} hour(s), it will be: {{ future_time }}</p>
+    <p>In {{ hours|default_if_none:"00:00:00" }} hour(s), it will be: {{ future_time }}</p>
 </body>
 </html>
