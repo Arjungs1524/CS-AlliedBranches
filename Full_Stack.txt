@@ -225,3 +225,125 @@ from .views import offset_datetime
 urlpatterns = [
     path('offset_datetime/', offset_datetime, name='offset_datetime'),
 ]
+
+
+
+----------------------------------------------------------------------------------------------
+Develop a simple Django app that displays an unordered list of fruits and ordered list of
+selected students for an event to demonstrate Databases usage
+
+django-admin startproject fruit_student_app
+cd fruit_student_app
+
+python manage.py startapp display
+
+Add the App to Installed Apps:
+Edit fruit_student_app/settings.py:
+
+INSTALLED_APPS = [
+    ...
+    'display',
+]
+Set Up Database:
+Use the default SQLite database or configure another database in settings.py.
+
+Create Models for Fruits and Students:
+Edit display/models.py:
+
+from django.db import models
+
+class Fruit(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+class Student(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+Make Migrations:
+python manage.py makemigrations
+python manage.py migrate
+
+
+Register Models in Admin:
+Edit display/admin.py:
+
+from django.contrib import admin
+from .models import Fruit, Student
+
+admin.site.register(Fruit)
+admin.site.register(Student)
+
+
+Create Superuser:
+
+python manage.py createsuperuser
+
+
+Create Views:
+Edit display/views.py:
+
+from django.shortcuts import render
+from .models import Fruit, Student
+
+def fruit_student_list(request):
+    fruits = Fruit.objects.all()
+    students = Student.objects.all()
+    return render(request, 'display/list.html', {'fruits': fruits, 'students': students})
+
+Create URL Patterns:
+Edit display/urls.py:
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.fruit_student_list, name='fruit_student_list'),
+]
+
+Edit fruit_student_app/urls.py:
+
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('display.urls')),
+]
+
+
+Create display/templates/display/list.html:
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fruits and Students</title>
+</head>
+<body>
+    <h1>Fruits</h1>
+    <ul>
+        {% for fruit in fruits %}
+            <li>{{ fruit.name }}</li>
+        {% endfor %}
+    </ul>
+
+    <h1>Selected Students</h1>
+    <ol>
+        {% for student in students %}
+            <li>{{ student.name }}</li>
+        {% endfor %}
+    </ol>
+</body>
+</html>
+
+Add Data through Admin Interface:
+Start the server:
+
+python manage.py runserver
+View the Lists:
+Visit http://127.0.0.1:8000/ to see the unordered list of fruits and ordered list of students.
