@@ -345,5 +345,23 @@ Add Data through Admin Interface:
 Start the server:
 
 python manage.py runserver
+
+    Log In:
+    Use the superuser credentials you created earlier.
+
+    Add Fruits:
+        Click on the "Fruits" section.
+        Click "Add Fruit".
+        Enter the name of the fruit.
+        Click "Save".
+
+    Add Students:
+        Click on the "Students" section.
+        Click "Add Student".
+        Enter the name of the student.
+        Click "Save".
+
+By following these steps, you can easily add entries to your Fruits and Students models through the Django Admin interface.
+
 View the Lists:
 Visit http://127.0.0.1:8000/ to see the unordered list of fruits and ordered list of students.
