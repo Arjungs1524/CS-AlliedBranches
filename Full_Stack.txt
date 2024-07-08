@@ -469,3 +469,105 @@ Start the server:
 python manage.py runserver
 
 Now you can navigate to http://127.0.0.1:8000/projects/create/ in your web browser to see the form and create a new project entry.
+____________________________________________________________________________________________________________________________
+
+
+
+Develop example Django app that performs CSV and PDF generation for any model 
+
+django-admin startproject myproject
+cd myproject
+python manage.py startapp myapp
+
+Edit myproject/settings.py to include 'myapp' in INSTALLED_APPS.
+
+In myapp/models.py, create a Student model:
+
+from django.db import models
+
+class Student(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    attendance = models.FloatField()
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
+In myapp/views.py, create views for generating CSV and PDF files:
+
+import csv
+from django.http import HttpResponse
+from django.shortcuts import render
+from .models import Student
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from io import BytesIO
+
+def generate_csv(request):
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="students.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['First Name', 'Last Name', 'Email', 'Attendance'])
+
+    students = Student.objects.all().values_list('first_name', 'last_name', 'email', 'attendance')
+    for student in students:
+        writer.writerow(student)
+
+    return response
+
+def generate_pdf(request):
+    buffer = BytesIO()
+    p = canvas.Canvas(buffer, pagesize=letter)
+    width, height = letter
+
+    p.drawString(100, height - 40, "Student List")
+
+    students = Student.objects.all()
+    y = height - 60
+    for student in students:
+        p.drawString(100, y, f"{student.first_name} {student.last_name} - {student.email} - Attendance: {student.attendance}%")
+        y -= 20
+
+    p.showPage()
+    p.save()
+
+    buffer.seek(0)
+    return HttpResponse(buffer, content_type='application/pdf')
+
+In myapp/urls.py, set up the URLs for the CSV and PDF generation views:
+
+from django.urls import path
+from .views import generate_csv, generate_pdf
+
+urlpatterns = [
+    path('generate_csv/', generate_csv, name='generate_csv'),
+    path('generate_pdf/', generate_pdf, name='generate_pdf'),
+]
+
+Include myapp.urls in the main urls.py of the project:
+
+from django.contrib import admin
+from django.urls import include, path
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('myapp.urls')),
+]
+
+Register the Student model in myapp/admin.py to manage it via Django admin:
+
+from django.contrib import admin
+from .models import Student
+
+admin.site.register(Student)
+
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+
+Visit http://127.0.0.1:8000/generate_csv/ to download the CSV file.
+Visit http://127.0.0.1:8000/generate_pdf/ to download the PDF file.
