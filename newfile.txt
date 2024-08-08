@@ -1,0 +1,894 @@
+1. Kruskals
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+struct Edge { 	// Define an Edge structure
+    int u, v, weight;
+};
+
+bool compareEdges(Edge e1, Edge e2) { 	// Comparator function to sort edges based on their weight
+    return e1.weight < e2.weight;
+}
+
+class DSU {		// Disjoint Set Union (DSU) or Union-Find data structure
+public: vector<int> parent, rank;
+    DSU(int n) {
+        parent.resize(n);
+        rank.resize(n, 0);
+        for (int i = 0; i < n; ++i) {
+            parent[i] = i;
+        }
+    }
+
+    int find(int u) {
+        if (u != parent[u]) {
+            parent[u] = find(parent[u]); // Path compression
+        }
+        return parent[u];
+    }
+
+    void unite(int u, int v) {
+        int rootU = find(u);
+        int rootV = find(v);
+        if (rootU != rootV) {
+            if (rank[rootU] > rank[rootV]) {
+                parent[rootV] = rootU;
+            } else if (rank[rootU] < rank[rootV]) {
+                parent[rootU] = rootV;
+            } else {
+                parent[rootV] = rootU;
+                rank[rootU]++;
+            }
+        }
+    }
+};
+
+int main() {
+    int V, E; // V = number of vertices, E = number of edges
+    cout << "Enter the number of vertices and edges: ";
+    cin >> V >> E;
+    vector<Edge> edges(E);
+
+    cout << "Enter the edges (u v weight) one by one:" << endl;
+    for (int i = 0; i < E; ++i) {
+        cin >> edges[i].u >> edges[i].v >> edges[i].weight;
+    }
+
+    sort(edges.begin(), edges.end(), compareEdges); 	// Sort edges based on their weight
+    DSU dsu(V);
+
+    vector<Edge> mst; // Store the edges of the Minimum Spanning Tree
+    int mst_weight = 0;
+
+    for (Edge e : edges) {
+        if (dsu.find(e.u) != dsu.find(e.v)) {
+            dsu.unite(e.u, e.v);
+            mst.push_back(e);
+            mst_weight += e.weight;
+        }
+    }
+
+    cout << "Edges in the Minimum Spanning Tree:" << endl;	// Print the edges of the Minimum Spanning Tree
+    for (Edge e : mst) {
+        cout << e.u << " -- " << e.v << " == " << e.weight << endl;
+    }
+    cout << "Total weight of the Minimum Spanning Tree: " << mst_weight << endl;
+    return 0;
+} // https://onecompiler.com/cpp/42dx9erz4
+
+2. Prims
+
+#include <iostream>
+#include <vector>
+#include <limits.h>
+#include <queue>
+using namespace std;
+
+void printMST(vector<int>& parent, vector<vector<int>>& graph, int V) {
+    cout << "Edge \tWeight\n";
+    for (int i = 1; i < V; i++) {
+        cout << parent[i] << " - " << i << " \t" << graph[i][parent[i]] << " \n";
+    }
+}
+
+void primMST(vector<vector<int>>& graph, int V) {
+    vector<int> parent(V);  
+    vector<int> key(V, INT_MAX);  
+    vector<bool> inMST(V, false);  
+    
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    
+    key[0] = 0;
+    pq.push({0, 0});  
+    parent[0] = -1;  
+
+    while (!pq.empty()) {         
+        int u = pq.top().second;
+        pq.pop();         
+        inMST[u] = true;         
+        for (int v = 0; v < V; v++) {
+            if (graph[u][v] && !inMST[v] && graph[u][v] < key[v]) {
+                key[v] = graph[u][v];
+                pq.push({key[v], v});
+                parent[v] = u;
+            }
+        }
+    }
+    printMST(parent, graph, V);
+}
+
+int main() {
+    int V;
+    cout << "Enter the number of vertices: ";
+    cin >> V;
+
+    vector<vector<int>> graph(V, vector<int>(V));
+    cout << "Enter the adjacency matrix (use 0 for no edge):\n";
+    for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+            cin >> graph[i][j];
+        }
+    }
+    primMST(graph, V);
+    return 0;
+}//https://onecompiler.com/cpp/42dx9fyza
+
+3. a) floyd.
+#include <iostream>
+#include <vector>
+#include <iomanip>
+using namespace std;
+const int INF = 1e9;
+
+void floydWarshall(vector<vector<int>>& dist, int V) {
+    for (int k = 0; k < V; ++k) {
+        for (int i = 0; i < V; ++i) {
+            for (int j = 0; j < V; ++j) {
+                if (dist[i][k] != INF && dist[k][j] != INF && dist[i][k] + dist[k][j] < dist[i][j]) {
+                    dist[i][j] = dist[i][k] + dist[k][j];
+                }
+            }
+        }
+    }
+}
+void printSolution(const vector<vector<int>>& dist, int V) {
+    cout << "The following matrix shows the shortest distances between every pair of vertices:\n";
+    for (int i = 0; i < V; ++i) {
+        for (int j = 0; j < V; ++j) {
+            if (dist[i][j] == INF) 
+                cout << setw(5) << "INF";
+            else 
+                cout << setw(5) << dist[i][j];
+        }
+        cout << endl;
+    }
+}
+int main() {
+    int V, E;
+    cout << "Enter the number of vertices: "; 	cin >> V;
+    cout << "Enter the number of edges: "; 		cin >> E;
+
+    vector<vector<int>> dist(V, vector<int>(V, INF));
+
+    cout << "Enter the edges (u v w) where u and v are vertices and w is the weight:\n";
+    for (int i = 0; i < E; ++i) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        dist[u][v] = w;
+    }
+
+    for (int i = 0; i < V; ++i) 
+        dist[i][i] = 0;
+
+    floydWarshall(dist, V);
+    printSolution(dist, V);
+    return 0;
+} // https://onecompiler.com/cpp/42e2h6hhh
+   
+3   b)warshall
+
+#include <iostream>
+#include <vector>
+using namespace std;
+void warshallAlgorithm(vector<vector<int>>& graph, int V) {
+    vector<vector<int>> transitiveClosure = graph;
+    for (int k = 0; k < V; ++k) 
+        for (int i = 0; i < V; ++i) 
+            for (int j = 0; j < V; ++j) 
+                transitiveClosure[i][j] = transitiveClosure[i][j] || (transitiveClosure[i][k] && transitiveClosure[k][j]);
+
+    cout << "Transitive Closure Matrix:\n";
+    for (int i = 0; i < V; ++i) {
+        for (int j = 0; j < V; ++j) 
+            cout << transitiveClosure[i][j] << " ";
+        cout << endl;
+    }
+}
+int main() {
+    int V, E;
+    cout << "Enter the number of vertices: ";   cin >> V;
+    cout << "Enter the number of edges: ";      cin >> E;
+
+    vector<vector<int>> graph(V, vector<int>(V, 0));
+    for (int i = 0; i < V; ++i) 
+        graph[i][i] = 1;
+
+    cout << "Enter the edges (u v) where u and v are vertices:\n";
+    for (int i = 0; i < E; ++i) {
+        int u, v;
+        cin >> u >> v;
+        graph[u][v] = 1; // There is a path from u to v
+    }
+    warshallAlgorithm(graph, V);
+    return 0;
+} // https://onecompiler.com/cpp/42e2j2btj
+
+4. dijkstra
+
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <utility>
+#include <climits>
+using namespace std;
+
+void dijkstra(const vector<vector<pair<int, int>>> &graph, int source) {
+    int V = graph.size();
+    vector<int> dist(V, INT_MAX);
+    dist[source] = 0;
+
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    pq.push({0, source});
+
+    while (!pq.empty()) {
+        int u = pq.top().second;
+        pq.pop();
+
+        for (const auto &neighbor : graph[u]) {
+            int v = neighbor.first;
+            int weight = neighbor.second;
+
+            if (dist[u] + weight < dist[v]) {
+                dist[v] = dist[u] + weight;
+                pq.push({dist[v], v});
+            }
+        }
+    }
+
+    cout << "Vertex \t Distance from Source" << endl;
+    for (int i = 0; i < V; ++i) {
+        cout << i << " \t " << dist[i] << endl;
+    }
+}
+int main() {
+    int V, E;
+    cout << "Enter the number of vertices: "; 	cin >> V;
+    cout << "Enter the number of edges: "; 		cin >> E;
+
+    vector<vector<pair<int, int>>> graph(V);
+
+    cout << "Enter the edges (u v w) where u and v are vertices and w is the weight:" << endl;
+    for (int i = 0; i < E; ++i) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        graph[u].push_back({v, w});
+        graph[v].push_back({u, w}); 
+    }
+
+    int source;
+    cout << "Enter the source vertex: "; 	cin >> source;
+    dijkstra(graph, source);
+    return 0;
+} // https://onecompiler.com/cpp/42e2gvd4t
+
+5. topological_ordering
+
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <algorithm>
+using namespace std;
+
+void DFS(int v, vector<vector<int>>& graph, vector<bool>& visited, stack<int>& ordering) {
+    visited[v] = true;
+    for (int u : graph[v]) 
+        if (!visited[u]) 
+            DFS(u, graph, visited, ordering);
+
+    ordering.push(v);
+}
+vector<int> topologicalSort(vector<vector<int>>& graph, int V) {
+    vector<bool> visited(V, false);
+    stack<int> ordering;
+
+    for (int v = 0; v < V; ++v) 
+        if (!visited[v]) 
+            DFS(v, graph, visited, ordering);
+
+    vector<int> result;
+    while (!ordering.empty()) {
+        result.push_back(ordering.top());
+        ordering.pop();
+    }
+    return result;
+}
+int main() {
+    int V, E;
+    cout << "Enter the number of vertices: "; 	cin >> V;
+    cout << "Enter the number of edges: "; 		cin >> E;
+
+    vector<vector<int>> graph(V);
+    cout << "Enter the edges (u v) where u and v are vertices:\n";
+    for (int i = 0; i < E; ++i) {
+        int u, v;
+        cin >> u >> v;
+        graph[u].push_back(v); // Add edge from u to v
+    }
+
+    vector<int> ordering = topologicalSort(graph, V);
+
+    cout << "Topological Ordering: ";
+    for (int vertex : ordering) 
+        cout << vertex << " ";
+    cout << endl;
+    return 0;
+} // https://onecompiler.com/cpp/42e2jpwpw
+
+6. knapsack01
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int knapsack(int W, vector<int>& wt, vector<int>& val, int n) {
+    vector<vector<int>> dp(n + 1, vector<int>(W + 1, 0));
+
+    for (int i = 1; i <= n; ++i) {
+        for (int w = 1; w <= W; ++w) {
+            if (wt[i - 1] <= w)
+                dp[i][w] = max(val[i - 1] + dp[i - 1][w - wt[i - 1]], dp[i - 1][w]);
+            else 
+                dp[i][w] = dp[i - 1][w];
+        }
+    }
+    return dp[n][W];
+}
+int main() {
+    std::vector<int> weights = {10, 20, 30};  // Weights of the items
+    std::vector<int> values = {60, 100, 120}; // Values of the items
+    int capacity = 50;  // Capacity of the knapsack
+    int n = weights.size();  // Number of items
+
+    int maxValue = knapsack(capacity, weights, values, n);
+
+    std::cout << "0/1 Knapsack Total Value: " << maxValue << std::endl;    
+    return 0;
+} //https://onecompiler.com/cpp/42htyf2yd
+
+7. Knapsack_continuous_discrete
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+struct Item {
+    int weight;
+    int value;
+    Item(int w, int v) : weight(w), value(v) {}
+};
+
+double knapsack(std::vector<Item>& items, int capacity, bool isContinuous) {
+
+    std::sort(items.begin(), items.end(), [](Item a, Item b) {
+        double r1 = (double)a.value / a.weight;
+        double r2 = (double)b.value / b.weight;
+        return r1 > r2;
+    });
+
+    double totalValue = 0.0;
+    for (const auto& item : items) {
+        if (capacity - item.weight >= 0) {
+            capacity -= item.weight;
+            totalValue += item.value;
+        } else {
+            if (isContinuous) {
+                totalValue += item.value * ((double)capacity / item.weight);
+            }
+            break;
+        }
+    }
+    return totalValue;
+}
+int main() {
+    std::vector<Item> items = { {10, 60}, {20, 100}, {30, 120} };
+    int capacity = 50;
+
+    std::cout << "Discrete Knapsack Total Value: " << knapsack(items, capacity, false) << std::endl;
+    capacity = 50;
+    std::cout << "Continuous Knapsack Total Value: " << knapsack(items, capacity, true) << std::endl;
+    return 0;
+} // https://onecompiler.com/cpp/42hsac4pb
+
+8. SubSet_Sum
+
+#include <iostream>
+using namespace std;
+const int MAX = 100;	// Constant definitions
+class SubSet	// class definitions
+{
+	int stk[MAX], set[MAX];
+	int size, top, count;
+	public:
+	SubSet() {
+		top = -1;
+		count = 0;
+	}
+	void getInfo(void);
+	void push(int data);
+	void pop(void);
+	void display(void);
+	int fnFindSubset(int pos, int sum);
+};
+void SubSet :: getInfo(void) {
+	int i;
+	cout << "Enter the number of elements : ";
+	cin >> size;
+	cout << "Enter the values of the elements (in ascending order) : \n";
+	for (i=1; i<=size; i++)
+	cin >> set[i];
+}
+void SubSet :: push(int data) {
+	stk[++top] = data;
+}
+void SubSet :: pop(void) {
+	top--;
+}
+void SubSet :: display() {
+	int i;
+	cout << "\nSOLUTION #"<< ++count <<" IS\n{ ";
+	for (i=0; i<=top; i++)
+		cout << stk[i] << " ";
+	cout << "}" << endl;
+}
+int SubSet :: fnFindSubset(int pos, int sum) {
+	int i;
+	static int foundSoln = 0;
+	if (sum>0) {
+		for (i=pos; i<=size; i++) {
+			push(set[i]);
+			fnFindSubset(i+1, sum - set[i]);
+			pop();
+		}
+	}
+	if (sum == 0) {
+		display();
+		foundSoln = 1;
+	}
+	return foundSoln;
+}
+int main(void) {
+	int sum;
+	SubSet set1;
+	set1.getInfo();
+	cout << "Enter the sum value : ";
+	cin >> sum;
+	cout << endl;
+	if (!set1.fnFindSubset(1, sum))
+		cout << "\nThe problem instance doesnt have any solution." << endl;
+	else
+		cout << "\nThe above-mentioned sets are the required solution to the given instance." << endl;
+	return 0;
+}
+
+9. Selection_sort
+
+#include <iostream>
+#include <vector>
+#include <ctime>
+#include <iomanip>
+#include <cstdlib>
+#include <fstream>
+
+using namespace std;
+
+class Sort {
+protected:
+    vector<int> numList;
+	int n;
+public:
+	Sort() {
+		cout << "\nEnter number of elements to sort : "; cin >> n;
+		fnGenRandArray(n);
+		cout << "\nUnsorted Array" << endl;
+		fnDispArray();
+	}
+    virtual void sortArray(int low, int high){}
+    
+	void fnGenRandArray(int n) {
+        numList.clear();
+        srand(time(NULL));
+        for(int i = 0; i < n; i++) {
+            int iVal = rand() % 10000;
+            numList.push_back(iVal);
+        }
+    }
+
+    void fnDispArray() {
+        for(int i = 0; i < numList.size(); i++) {
+            cout << setw(8) << numList[i] << endl;
+        }
+    }
+
+    void fnSwap(int &a, int &b) {
+        int t = a;
+        a = b;
+        b = t;
+    }
+
+    virtual void plotGraph(ofstream& fout) = 0;
+};
+
+class SelectionSort : public Sort {
+public:
+    SelectionSort(){
+      sortArray(0, n - 1);
+		  cout << "\nSorted Array using Selection Sort" << endl;
+		  fnDispArray();
+    }
+
+    void sortArray(int low, int high) override {
+        int n = numList.size();
+        for (int i = 0; i < n - 1; i++) {
+            int minIdx = i;
+            for (int j = i + 1; j < n; j++) {
+                if (numList[j] < numList[minIdx]) {
+                    minIdx = j;
+                }
+            }
+            fnSwap(numList[minIdx], numList[i]);
+        }
+    }
+	void plotGraph(ofstream& fout) {
+        for (int i = 100; i < 100000; i += 100) {
+            fnGenRandArray(i);
+            struct timespec tv;
+            double dStart, dEnd;
+
+            clock_gettime(CLOCK_REALTIME, &tv);
+            dStart = tv.tv_sec + tv.tv_nsec / 1000000000.0;
+
+            sortArray(0, i - 1);
+
+            clock_gettime(CLOCK_REALTIME, &tv);
+            dEnd = tv.tv_sec + tv.tv_nsec / 1000000000.0;
+
+            fout << i << "\t" << setprecision(10) << dEnd - dStart << endl;
+        }
+        cout << "\nData File generated and stored in file < sort.dat >. Use a plotting utility\n";
+    }
+};
+
+int main() {
+    ofstream fout("sort.dat", ios::out);
+    Sort *sortObj = nullptr;
+
+    int iChoice;
+    for (;;) {
+        cout << "\n1.MergeSort\n2.QuickSort\n3.BubbleSort\n4.SelectionSort\n5.Plot the Graph for Selection Sort\n6.Plot the Graph for Quick Sort\n7.Plot the Graph for Merge Sort\n8.Plot the Graph for Bubble Sort\n9.Exit\n";
+        cout << "\nEnter your choice: ";
+        cin >> iChoice;
+
+        switch (iChoice) {
+       
+            case 4: sortObj = new SelectionSort();
+                    break;
+            case 5: sortObj->plotGraph(fout);
+                    break;
+	   
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    }
+}
+
+10. Quick 
+
+#include <iostream>
+#include <vector>
+#include <ctime>
+#include <iomanip>
+#include <cstdlib>
+#include <fstream>
+
+using namespace std;
+
+class Sort {
+protected:
+    vector<int> numList;
+	int n;
+public:
+	Sort() {
+		cout << "\nEnter number of elements to sort : "; cin >> n;
+		fnGenRandArray(n);
+		cout << "\nUnsorted Array" << endl;
+		fnDispArray();
+	}
+    virtual void sortArray(int low, int high){}
+    
+	void fnGenRandArray(int n) {
+        numList.clear();
+        srand(time(NULL));
+        for(int i = 0; i < n; i++) {
+            int iVal = rand() % 10000;
+            numList.push_back(iVal);
+        }
+    }
+
+    void fnDispArray() {
+        for(int i = 0; i < numList.size(); i++) {
+            cout << setw(8) << numList[i] << endl;
+        }
+    }
+
+    void fnSwap(int &a, int &b) {
+        int t = a;
+        a = b;
+        b = t;
+    }
+
+    virtual void plotGraph(ofstream& fout) = 0;
+};
+
+class QuickSort : public Sort {
+public:
+
+    QuickSort(){
+		  sortArray(0, n - 1);
+		  cout << "\nSorted Array using Quick Sort" << endl;
+		  fnDispArray();
+    }
+    
+    void sortArray(int low, int high) override {
+        if (low < high) {
+            int pivot = partition(low, high);
+            sortArray(low, pivot - 1);
+            sortArray(pivot + 1, high);
+        }
+    }
+
+    int partition(int low, int high) {
+        int pivot = numList[high];
+        int i = low - 1;
+
+        for (int j = low; j < high; j++) {
+            if (numList[j] <= pivot) {
+                i++;
+                fnSwap(numList[i], numList[j]);
+            }
+        }
+
+        fnSwap(numList[i + 1], numList[high]);
+        return i + 1;
+    }
+	void plotGraph(ofstream& fout) {
+        for (int i = 100; i < 100000; i += 100) {
+            fnGenRandArray(i);
+            struct timespec tv;
+            double dStart, dEnd;
+
+            clock_gettime(CLOCK_REALTIME, &tv);
+            dStart = tv.tv_sec + tv.tv_nsec / 1000000000.0;
+
+            sortArray(0, i - 1);
+
+            clock_gettime(CLOCK_REALTIME, &tv);
+            dEnd = tv.tv_sec + tv.tv_nsec / 1000000000.0;
+
+            fout << i << "\t" << setprecision(10) << dEnd - dStart << endl;
+        }
+        cout << "\nData File generated and stored in file < sort.dat >. Use a plotting utility\n";
+    }
+};
+int main() {
+    ofstream fout("sort.dat", ios::out);
+    Sort *sortObj = nullptr;
+
+    int iChoice;
+    for (;;) {
+        cout << "\n1.MergeSort\n2.QuickSort\n3.BubbleSort\n4.SelectionSort\n5.Plot the Graph for Selection Sort\n6.Plot the Graph for Quick Sort\n7.Plot the Graph for Merge Sort\n8.Plot the Graph for Bubble Sort\n9.Exit\n";
+        cout << "\nEnter your choice: ";
+        cin >> iChoice;
+        switch (iChoice) {
+            
+            case 2: sortObj = new QuickSort();
+                    break;            
+	    case 6: sortObj->plotGraph(fout);
+                    break;	   
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    }
+}
+
+11. Merge 
+
+#include <iostream>
+#include <vector>
+#include <ctime>
+#include <iomanip>
+#include <cstdlib>
+#include <fstream>
+using namespace std;
+
+class Sort {
+protected:
+    vector<int> numList;
+	int n;
+public:
+	Sort() {
+		cout << "\nEnter number of elements to sort : "; cin >> n;
+		fnGenRandArray(n);
+		cout << "\nUnsorted Array" << endl;
+		fnDispArray();
+	}
+    virtual void sortArray(int low, int high){}
+    
+	void fnGenRandArray(int n) {
+        numList.clear();
+        srand(time(NULL));
+        for(int i = 0; i < n; i++) {
+            int iVal = rand() % 10000;
+            numList.push_back(iVal);
+        }
+    }
+    void fnDispArray() {
+        for(int i = 0; i < numList.size(); i++) {
+            cout << setw(8) << numList[i] << endl;
+        }
+    }
+    void fnSwap(int &a, int &b) {
+        int t = a;
+        a = b;
+        b = t;
+    }
+
+    virtual void plotGraph(ofstream& fout) = 0;
+};
+class MergeSort : public Sort {
+public:
+    MergeSort(){
+      sortArray(0, n - 1);
+		  cout << "\nSorted Array using Merge Sort" << endl;
+		  fnDispArray();
+    }
+    void sortArray(int low, int high) override {
+        if (low < high) {
+            int mid = low + (high - low) / 2;
+            sortArray(low, mid);
+            sortArray(mid + 1, high);
+            merge(low, mid, high);
+        }
+    }
+    void merge(int low, int mid, int high) {
+        vector<int> temp(numList.begin() + low, numList.begin() + high + 1);
+        int i = low, j = mid + 1, k = low;
+
+        while (i <= mid && j <= high) {
+            if (temp[i - low] <= temp[j - low]) {
+                numList[k++] = temp[i - low];
+                i++;
+            } else {
+                numList[k++] = temp[j - low];
+                j++;
+            }
+        }
+        while (i <= mid) {
+            numList[k++] = temp[i - low];
+            i++;
+        }
+        while (j <= high) {
+            numList[k++] = temp[j - low];
+            j++;
+        }
+    }
+	void plotGraph(ofstream& fout) {
+        for (int i = 100; i < 100000; i += 100) {
+            fnGenRandArray(i);
+            struct timespec tv;
+            double dStart, dEnd;
+
+            clock_gettime(CLOCK_REALTIME, &tv);
+            dStart = tv.tv_sec + tv.tv_nsec / 1000000000.0;
+
+            sortArray(0, i - 1);
+
+            clock_gettime(CLOCK_REALTIME, &tv);
+            dEnd = tv.tv_sec + tv.tv_nsec / 1000000000.0;
+
+            fout << i << "\t" << setprecision(10) << dEnd - dStart << endl;
+        }
+        cout << "\nData File generated and stored in file < sort.dat >. Use a plotting utility\n";
+    }
+};
+int main() {
+    ofstream fout("sort.dat", ios::out);
+    Sort *sortObj = nullptr;
+
+    int iChoice;
+    for (;;) {
+        cout << "\n1.MergeSort\n2.QuickSort\n3.BubbleSort\n4.SelectionSort\n5.Plot the Graph for Selection Sort\n6.Plot the Graph for Quick Sort\n7.Plot the Graph for Merge Sort\n8.Plot the Graph for Bubble Sort\n9.Exit\n";
+        cout << "\nEnter your choice: ";
+        cin >> iChoice;
+        switch (iChoice) {
+            case 1: sortObj = new MergeSort();
+                    break;                  
+	    case 7: sortObj->plotGraph(fout);
+                    break;	    
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    }
+}
+12. backtracking
+#include <iostream>
+#include <vector>
+using namespace std;
+void printSolution(const vector<vector<int>>& board) {
+    int N = board.size();
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < N; ++j)
+            cout << (board[i][j] ? "Q " : ". ");
+        cout << endl;
+    }
+}
+bool isSafe(const vector<vector<int>>& board, int row, int col) {
+    int N = board.size();
+
+    for (int i = 0; i < col; ++i)
+        if (board[row][i])
+            return false;
+
+    for (int i = row, j = col; i >= 0 && j >= 0; --i, --j) 
+        if (board[i][j])
+            return false;
+
+    for (int i = row, j = col; i < N && j >= 0; ++i, --j)
+        if (board[i][j])
+            return false;
+
+    return true;
+}
+bool solveNQUtil(vector<vector<int>>& board, int col) {
+    int N = board.size();
+    if (col >= N)
+        return true;
+
+    for (int i = 0; i < N; ++i) {
+        if (isSafe(board, i, col)) {
+            board[i][col] = 1;
+            if (solveNQUtil(board, col + 1))
+                return true;
+            board[i][col] = 0;
+        }
+    }
+    return false;
+}
+bool solveNQ(int N) {
+    vector<vector<int>> board(N, vector<int>(N, 0));
+
+    if (!solveNQUtil(board, 0)) {
+        cout << "Solution does not exist" << endl;
+        return false;
+    }
+    printSolution(board);
+    return true;
+}
+int main() {
+    int N;
+    cout << "Enter the number of queens: \n";
+    cin >> N;
+    solveNQ(N);
+
+    return 0;
+} // https://onecompiler.com/cpp/42dxarm74, https://onecompiler.com/cpp/42jfck4mk to print multiple solutions.
